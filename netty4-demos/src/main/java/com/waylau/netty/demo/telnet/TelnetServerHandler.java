@@ -25,6 +25,30 @@ public class TelnetServerHandler extends SimpleChannelInboundHandler<String> {
 
     public void messageReceived(ChannelHandlerContext ctx, String request) {
         // Generate and write a response.
+        onRead(ctx, request);
+    }
+
+    @Override
+    public void channelReadComplete(ChannelHandlerContext ctx) {
+        ctx.flush();
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        cause.printStackTrace();
+        ctx.close();
+    }
+
+	@Override
+	protected void channelRead0(ChannelHandlerContext ctx, String request)
+			throws Exception {
+      onRead(ctx, request);
+
+  }
+
+    private void onRead(ChannelHandlerContext ctx, String request) {
+        // TODO Auto-generated method stub
+        // Generate and write a response.
         String response;
         boolean close = false;
         if (request.isEmpty()) {
@@ -46,22 +70,4 @@ public class TelnetServerHandler extends SimpleChannelInboundHandler<String> {
             future.addListener(ChannelFutureListener.CLOSE);
         }
     }
-
-    @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) {
-        ctx.flush();
-    }
-
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        cause.printStackTrace();
-        ctx.close();
-    }
-
-	@Override
-	protected void channelRead0(ChannelHandlerContext ctx, String msg)
-			throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
 }

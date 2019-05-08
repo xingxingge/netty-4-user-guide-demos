@@ -3,6 +3,7 @@ package com.waylau.netty.demo.discard;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.util.CharsetUtil;
 import io.netty.util.ReferenceCountUtil;
 
 /**
@@ -26,6 +27,7 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter { // (1)
         */
         
 	    ByteBuf in = (ByteBuf) msg;
+			System.out.println(in.toString(CharsetUtil.US_ASCII));
 	    try {
 	        while (in.isReadable()) { // (1)
 	            System.out.print((char) in.readByte());
