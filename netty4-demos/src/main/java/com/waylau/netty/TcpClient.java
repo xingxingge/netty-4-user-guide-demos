@@ -1,7 +1,6 @@
 package com.waylau.netty;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 
 /**
@@ -28,8 +27,15 @@ public class TcpClient {
             out.flush();  
   
         } finally {  
-            // 关闭连接  
-            out.close();  
+            // 关闭连接
+          InputStream inputStream = socket.getInputStream();
+          BufferedReader stringReader = new BufferedReader(
+              new InputStreamReader(inputStream));
+          String line;
+          while((line=stringReader.readLine())!=null){
+            System.out.println(line);
+          }
+          out.close();
             socket.close();  
         }  
 
